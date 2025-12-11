@@ -1,5 +1,5 @@
 // import 'package:discoverlanka/theme.dart';
-import 'package:discoverlanka/loginpage.dart';
+import 'package:discoverlanka/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -151,7 +151,7 @@ class _BasePageState extends State<BasePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (context) => Loginpage(),
+                        builder: (context) => Dashboard(),
                       ),
                     );
                   },

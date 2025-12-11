@@ -1,3 +1,7 @@
+import 'package:discoverlanka/components/customInputField.dart';
+import 'package:discoverlanka/components/topclipper.dart';
+import 'package:discoverlanka/dashboard.dart';
+import 'package:discoverlanka/registerpage.dart';
 import 'package:flutter/material.dart';
 
 class Loginpage extends StatefulWidget {
@@ -8,6 +12,11 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+  bool passwordVisible = true;
+  bool _showText = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,12 +31,12 @@ class _LoginpageState extends State<Loginpage> {
                   BoxShadow(
                     color: const Color.fromARGB(
                       255,
-                      94,
-                      122,
-                      90,
+                      129,
+                      150,
+                      125,
                     ).withValues(alpha: 100),
-                    spreadRadius: 12,
-                    blurRadius: 10,
+                    spreadRadius: 8,
+                    blurRadius: 8,
                     offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
@@ -38,34 +47,129 @@ class _LoginpageState extends State<Loginpage> {
             clipper: TopClipper(),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.3,
-              decoration: BoxDecoration(color: Colors.green[800]),
+              decoration: BoxDecoration(color: Colors.green),
             ),
           ),
-          Center(
+          Align(
+            alignment: Alignment.topCenter,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
+                Spacer(flex: 2),
                 Text(
                   'Login',
                   style: TextStyle(
-                    fontSize: 35,
+                    fontSize: 45,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: const Color.fromARGB(255, 20, 73, 41),),
-                      )
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Icon(Icons.login_rounded, size: 50),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                // Email Input Field
+                CustomInputField(
+                  labelText: 'Email',
+                  prefixIcon: Icons.email,
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                // Password Input Field
+                CustomInputField(
+                  labelText: 'Password',
+                  prefixIcon: Icons.lock,
+                  isPassword: true,
+                  obscureText: passwordVisible,
+                  controller: passwordController,
+                  onVisibilityToggle: () {
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
+                  },
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    ' Forgot Password ? ',
+                    style: TextStyle(
+                      color: Colors.green[900],
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.green[900],
+                      decorationThickness: 2,
                     ),
                   ),
-                )
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (context) => Dashboard(),
+                      ),
+                    );
+                    setState(() {
+                      _showText = !_showText;
+                    });
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color.fromARGB(255, 79, 182, 83),
+                          const Color.fromARGB(255, 113, 243, 109),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: AnimatedSwitcher(
+                      duration: Duration(microseconds: 500),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(scale: animation, child: child);
+                      },
+                      child: _showText
+                          ? Text(
+                              'Login',
+                              style: TextStyle(fontSize: 20),
+                              key: ValueKey('text'),
+                            )
+                          : Icon(
+                              Icons.check,
+                              size: 30,
+                              color: const Color.fromARGB(255, 0, 0, 0),
+                              key: ValueKey('icon'),
+                            ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (context) => Registerpage(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Doesn't Have a Account ? Register Here",
+                    style: TextStyle(
+                      color: Colors.green[900],
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.green[900],
+                      decorationThickness: 2,
+                    ),
+                  ),
+                ),
+                Spacer(),
               ],
             ),
           ),
@@ -75,50 +179,50 @@ class _LoginpageState extends State<Loginpage> {
   }
 }
 
-class TopClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    debugPrint(size.toString());
+// class TopClipper extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     debugPrint(size.toString());
 
-    // First Wave
-    var path = Path();
-    path.lineTo(0, size.height); // start from bottom left
-    var firstControlPoint = Offset(0, size.height * 0.85);
-    var firstEndPoint = Offset(size.width * 0.1, size.height * 0.85);
+//     // First Wave
+//     var path = Path();
+//     path.lineTo(0, size.height); // start from bottom left
+//     var firstControlPoint = Offset(0, size.height * 0.85);
+//     var firstEndPoint = Offset(size.width * 0.1, size.height * 0.85);
 
-    path.quadraticBezierTo(
-      firstControlPoint.dx,
-      firstControlPoint.dy,
-      firstEndPoint.dx,
-      firstEndPoint.dy,
-    );
+//     path.quadraticBezierTo(
+//       firstControlPoint.dx,
+//       firstControlPoint.dy,
+//       firstEndPoint.dx,
+//       firstEndPoint.dy,
+//     );
 
-    var firstStraightPoint = Offset(0, size.height * 0.85);
-    var secondStrightPoint = Offset(size.width * 0.9, size.height * 0.85);
+//     var firstStraightPoint = Offset(0, size.height * 0.85);
+//     var secondStrightPoint = Offset(size.width * 0.9, size.height * 0.85);
 
-    path.quadraticBezierTo(
-      firstStraightPoint.dx,
-      firstStraightPoint.dy,
-      secondStrightPoint.dx,
-      secondStrightPoint.dy,
-    );
-    // Second Wave
-    var secondControlPoint = Offset(size.width, size.height * 0.85);
-    var secondEndPoint = Offset(size.width, size.height);
-    path.quadraticBezierTo(
-      secondControlPoint.dx,
-      secondControlPoint.dy,
-      secondEndPoint.dx,
-      secondEndPoint.dy,
-    );
+//     path.quadraticBezierTo(
+//       firstStraightPoint.dx,
+//       firstStraightPoint.dy,
+//       secondStrightPoint.dx,
+//       secondStrightPoint.dy,
+//     );
+//     // Second Wave
+//     var secondControlPoint = Offset(size.width, size.height * 0.85);
+//     var secondEndPoint = Offset(size.width, size.height);
+//     path.quadraticBezierTo(
+//       secondControlPoint.dx,
+//       secondControlPoint.dy,
+//       secondEndPoint.dx,
+//       secondEndPoint.dy,
+//     );
 
-    path.lineTo(size.width, 0); // top right
-    path.close(); // close the path to form a shape
-    return path;
-  }
+//     path.lineTo(size.width, 0); // top right
+//     path.close(); // close the path to form a shape
+//     return path;
+//   }
 
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false; // Return true if you want to reclip when something changes
-  }
-}
+//   @override
+//   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+//     return false; // Return true if you want to reclip when something changes
+//   }
+// }

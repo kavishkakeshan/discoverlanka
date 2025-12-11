@@ -32,6 +32,10 @@ dependencies:
     sdk: flutter
   aurora_background: ^1.0.0
   google_fonts: ^6.1.0
+  image_picker: ^1.2.1
+  animated_text_kit: ^4.2.2
+  carousel_slider: ^5.0.0
+  smooth_page_indicator: ^2.0.1
   
 
   # The following adds the Cupertino Icons font to your application.
