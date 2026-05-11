@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Reusable Custom Input Field Component
 class CustomInputField extends StatelessWidget {
+  final String name;
   final String labelText;
   final IconData prefixIcon;
   final bool isPassword;
@@ -11,9 +13,11 @@ class CustomInputField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool readOnly;
   final VoidCallback? onTap;
+  final String? Function(String?)? validator;
 
   const CustomInputField({
     super.key,
+    required this.name,
     required this.labelText,
     required this.prefixIcon,
     this.isPassword = false,
@@ -23,6 +27,7 @@ class CustomInputField extends StatelessWidget {
     this.keyboardType,
     this.readOnly = false,
     this.onTap,
+    this.validator,
   });
 
   @override
@@ -41,12 +46,14 @@ class CustomInputField extends StatelessWidget {
           ),
         ],
       ),
-      child: TextField(
+      child: FormBuilderTextField(
+        name: name,
         controller: controller,
         obscureText: isPassword ? obscureText : false,
         keyboardType: keyboardType,
         readOnly: readOnly,
         onTap: onTap,
+        validator: validator,
         decoration: InputDecoration(
           prefixIcon: Icon(prefixIcon),
           prefixIconColor: Colors.green,
