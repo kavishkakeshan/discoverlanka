@@ -8,11 +8,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({super.key});
 
   final authService = AuthService();
-  
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
   @override
   Widget build(BuildContext context) {
+    final firstName =
+        authService.currentUser()?.userMetadata?['first_name'] ?? '';
+    final lastName =
+        authService.currentUser()?.userMetadata?['last_name'] ?? '';
+    final initials = [
+      if (firstName.isNotEmpty) firstName[0].toUpperCase(),
+      if (lastName.isNotEmpty) lastName[0].toUpperCase(),
+    ].join(' · ');
+
+
+
     return AppBar(
       title: Row(
         children: [
@@ -52,7 +63,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           authService.currentUser() == null
               ? ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Loginpage()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Loginpage()),
+                    );
                   },
                   icon: Icon(Icons.person_2_rounded, color: Colors.white),
                   label: Text(
@@ -72,15 +86,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               : ElevatedButton.icon(
                   onPressed: () {
                     // User Profile
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserProfile()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserProfile()),
+                    );
                   },
                   icon: Icon(
                     Icons.person_outline_outlined,
                     color: Colors.white,
                   ),
                   label: Text(
-                    authService.currentUser()?.userMetadata?['first_name'] ??
-                        '',
+                    initials.isNotEmpty ? initials : '',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

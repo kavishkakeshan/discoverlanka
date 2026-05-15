@@ -38,7 +38,48 @@ class AuthService {
   }
 
   User? currentUser() {
-    final session =  _supabase.auth.currentSession;
+    final session = _supabase.auth.currentSession;
     return session?.user;
+  }
+
+  Future<void> updateUserMetadata(Map<String, dynamic> metadata) async {
+    try {
+      await _supabase.auth.updateUser(UserAttributes(data: metadata));
+    } catch (e) {
+      throw Exception('Failed to update user metadata: $e');
+    }
+  }
+
+  Future<void> updateUserEmail(String newEmail) async {
+    try {
+      await _supabase.auth.updateUser(UserAttributes(email: newEmail));
+    } catch (e) {
+      throw Exception('Failed to update user email: $e');
+    }
+  }
+
+  Future<void> updateUserPassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+    } catch (e) {
+      throw Exception('Failed to update user password: $e');
+    }
+  }
+
+  Future<void> deleteUser() async {
+    try {
+      await _supabase.rpc('delete_current_user');
+      await _supabase.auth.signOut();
+    } catch (e) {
+      throw Exception('Failed to delete user: $e');
+    }
+  }
+
+  Future<void> refreshUserDetails() async {
+    try {
+      final response = await _supabase.auth.getUser();
+    } catch (e) {
+      throw Exception('Failed to refresh user details: $e');
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:discoverlanka/components/ComSlides/customTravelersSlide.dart';
 import 'package:discoverlanka/components/ComSlides/customWhyChooseSlides.dart';
 import 'package:discoverlanka/components/appDrawer.dart';
@@ -14,7 +13,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
-
   @override
   State<Dashboard> createState() => _DashboardState();
 }

@@ -41,7 +41,7 @@ Future<void> popupDialog({
               SizedBox(height: 16),
               Text(description, style: TextStyle(color: Colors.black)),
               SizedBox(height: 16),
-              if (location != null) location,
+              ?location,
               SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

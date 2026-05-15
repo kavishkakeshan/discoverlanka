@@ -28,8 +28,7 @@ class _RegisterpageState extends State<Registerpage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   File? _selectedImage;
 
   final ImagePicker _picker = ImagePicker();
@@ -321,7 +320,7 @@ class _RegisterpageState extends State<Registerpage> {
                               ),
                               FormBuilderValidators.match(
                                 RegExp(
-                                  r'(?=.*[@$!%*?&])',
+                                  r'(?=.*[@$!%*?&#^()_+\-=\[\]{};:"\\|,.<>\/?])',
                                 ), // Wrap with RegExp()
                                 errorText:
                                     'Must contain at least one special character',
