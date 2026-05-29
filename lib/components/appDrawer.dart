@@ -1,4 +1,5 @@
 import 'package:discoverlanka/supabase/auth_service.dart';
+import 'package:discoverlanka/ui/destinationspage.dart';
 import 'package:discoverlanka/ui/loginpage.dart';
 import 'package:discoverlanka/ui/userprofile.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,11 @@ class AppDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Destinationspage()),
+                );
+                Navigator.pop(context);
             },
           ),
           ListTile(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:discoverlanka/models/slideModel.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class CustomWhyChooseSlides extends StatefulWidget {
   final List<Slide> slides;
 
-  const CustomWhyChooseSlides({
-    super.key,
-    required this.slides,
-  });
+  const CustomWhyChooseSlides({super.key, required this.slides});
 
   @override
   State<CustomWhyChooseSlides> createState() => _CustomWhyChooseSlidesState();
@@ -17,7 +15,8 @@ class CustomWhyChooseSlides extends StatefulWidget {
 
 class _CustomWhyChooseSlidesState extends State<CustomWhyChooseSlides> {
   int _currentIndex = 0;
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,27 +57,21 @@ class _CustomWhyChooseSlidesState extends State<CustomWhyChooseSlides> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.network(
-                      slide.image!,
+                    CachedNetworkImage(
+                      imageUrl: slide.image!,
                       fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) => const Center(
-                        child: Icon(
-                          Icons.broken_image,
-                          size: 50,
-                          color: Colors.grey,
-                        ),
-                      ),
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    value: downloadProgress.progress,
+                                  ),
+                                ),
+                              ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -86,7 +79,9 @@ class _CustomWhyChooseSlidesState extends State<CustomWhyChooseSlides> {
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           colors: [
-                            Colors.black.withValues(alpha: 0.8), // Updated for clarity
+                            Colors.black.withValues(
+                              alpha: 0.8,
+                            ), // Updated for clarity
                             Colors.transparent,
                           ],
                         ),
@@ -126,7 +121,7 @@ class _CustomWhyChooseSlidesState extends State<CustomWhyChooseSlides> {
             );
           },
         ),
-        
+
         AnimatedSmoothIndicator(
           activeIndex: _currentIndex,
           count: widget.slides.length,

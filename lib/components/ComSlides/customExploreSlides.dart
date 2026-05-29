@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:discoverlanka/models/slideModel.dart';
 import 'package:flutter/material.dart';
@@ -57,28 +58,21 @@ class _CustomExploreSlidesState extends State<CustomExploreSlides> {
                   fit: StackFit.expand,
                   children: [
                     if (slide.image != null)
-                      Image.network(
-                        slide.image!,
+                      CachedNetworkImage(
+                        imageUrl: slide.image!,
                         fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Center(
-                              child: Icon(
-                                Icons.broken_image,
-                                size: 50,
-                                color: Colors.grey,
-                              ),
-                            ),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      value: downloadProgress.progress,
+                                    ),
+                                  ),
+                                ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     Container(
                       decoration: BoxDecoration(
@@ -86,7 +80,12 @@ class _CustomExploreSlidesState extends State<CustomExploreSlides> {
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           colors: [
-                            const Color.fromARGB(255, 0, 0, 0), // Updated for clarity
+                            const Color.fromARGB(
+                              255,
+                              0,
+                              0,
+                              0,
+                            ), // Updated for clarity
                             Colors.black26,
                           ],
                         ),
@@ -141,7 +140,7 @@ class _CustomExploreSlidesState extends State<CustomExploreSlides> {
             );
           },
         ),
-        
+
         AnimatedSmoothIndicator(
           activeIndex: _currentIndex,
           count: widget.slides.length,
