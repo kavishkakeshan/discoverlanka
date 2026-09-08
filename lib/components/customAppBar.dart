@@ -10,19 +10,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final authService = AuthService();
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
   @override
   Widget build(BuildContext context) {
+    final user = authService.currentUser();
     final firstName =
-        authService.currentUser()?.userMetadata?['first_name'] ?? '';
+        user?.userMetadata?['first_name'] as String? ?? '';
     final lastName =
-        authService.currentUser()?.userMetadata?['last_name'] ?? '';
+        user?.userMetadata?['last_name'] as String? ?? '';
     final initials = [
       if (firstName.isNotEmpty) firstName[0].toUpperCase(),
       if (lastName.isNotEmpty) lastName[0].toUpperCase(),
     ].join(' · ');
 
-
+    final displayName = initials.isNotEmpty
+        ? initials
+        : (user?.email != null && user!.email!.contains('@')
+            ? user.email!.split('@')[0]
+            : 'Profile');
 
     return AppBar(
       title: Row(
@@ -32,26 +38,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               width: double.infinity,
               child: DefaultTextStyle(
                 style: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 22.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green.shade500,
+                  color: Colors.green.shade700,
                 ),
                 child: AnimatedTextKit(
                   repeatForever: true,
                   isRepeatingAnimation: true,
-                  pause: Duration(milliseconds: 1500),
+                  pause: const Duration(milliseconds: 1500),
                   animatedTexts: [
                     TyperAnimatedText(
                       'DISCOVER LANKA',
-                      speed: Duration(milliseconds: 200),
+                      speed: const Duration(milliseconds: 120),
                     ),
                     TyperAnimatedText(
-                      'Welcome to Sri Lanka !!!',
-                      speed: Duration(milliseconds: 100),
+                      'Welcome to Sri Lanka!',
+                      speed: const Duration(milliseconds: 80),
                       textStyle: TextStyle(
-                        fontSize: 22.0,
+                        fontSize: 18.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green.shade500,
+                        color: Colors.green.shade700,
                       ),
                     ),
                   ],
@@ -59,25 +65,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          SizedBox(width: 10),
-          authService.currentUser() == null
+          const SizedBox(width: 8),
+          user == null
               ? ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Loginpage()),
+                      MaterialPageRoute(
+                          builder: (context) => const Loginpage()),
                     );
                   },
-                  icon: Icon(Icons.person_2_rounded, color: Colors.white),
-                  label: Text(
+                  icon: const Icon(Icons.person_2_rounded,
+                      color: Colors.white, size: 18),
+                  label: const Text(
                     'Login',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontSize: 13,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade400,
+                    backgroundColor:
+                        const Color.fromARGB(255, 34, 139, 34),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -85,25 +97,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
               : ElevatedButton.icon(
                   onPressed: () {
-                    // User Profile
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UserProfile()),
+                      MaterialPageRoute(
+                          builder: (context) => const UserProfile()),
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person_outline_outlined,
                     color: Colors.white,
+                    size: 18,
                   ),
                   label: Text(
-                    initials.isNotEmpty ? initials : '',
-                    style: TextStyle(
+                    displayName,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontSize: 13,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade400,
+                    backgroundColor:
+                        const Color.fromARGB(255, 34, 139, 34),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),

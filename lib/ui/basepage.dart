@@ -1,4 +1,5 @@
 // import 'package:discoverlanka/theme.dart';
+import 'package:discoverlanka/ui/dashboard.dart';
 import 'package:discoverlanka/ui/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -151,22 +152,42 @@ class _BasePageState extends State<BasePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (context) => Loginpage(),
+                        builder: (context) => const Loginpage(),
                       ),
                     );
                   },
-                  label: Text('Get Start'),
-                  icon: Icon(Icons.arrow_forward_outlined),
+                  label: const Text('Get Started'),
+                  icon: const Icon(Icons.arrow_forward_outlined),
                   iconAlignment: IconAlignment.end,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 0, 117, 49),
+                    backgroundColor: const Color.fromARGB(255, 0, 117, 49),
                     foregroundColor: Colors.white,
-                    iconSize: 40,
+                    iconSize: 30,
                     iconAlignment: IconAlignment.end,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                    textStyle: TextStyle(
-                      fontSize: 30,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    textStyle: const TextStyle(
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Dashboard(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Explore as Guest',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 0, 117, 49),
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
                 ),

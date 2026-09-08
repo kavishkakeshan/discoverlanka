@@ -1,3 +1,4 @@
+import 'package:discoverlanka/components/booking_modal.dart';
 import 'package:discoverlanka/components/popupFunction.dart';
 import 'package:flutter/material.dart';
 
@@ -108,7 +109,12 @@ List<Slide> carouselExploreSlides(BuildContext context) => [
             ],
           ),
           onBookPressed: () {
-            // Define booking action here
+            Navigator.pop(context);
+            showBookingModal(
+              context: context,
+              itemTitle: 'Sigiriya Rock Guided Tour',
+              itemCategory: 'Cultural & Ancient',
+            );
           },
         );
       },
@@ -155,7 +161,12 @@ List<Slide> carouselExploreSlides(BuildContext context) => [
             ],
           ),
           onBookPressed: () {
-            // Define booking action here
+            Navigator.pop(context);
+            showBookingModal(
+              context: context,
+              itemTitle: 'Yala National Park Safari',
+              itemCategory: 'Wildlife Safari',
+            );
           },
         );
       },
@@ -202,7 +213,12 @@ List<Slide> carouselExploreSlides(BuildContext context) => [
             ],
           ),
           onBookPressed: () {
-            // Define booking action here
+            Navigator.pop(context);
+            showBookingModal(
+              context: context,
+              itemTitle: 'Anuradhapura Cultural Heritage Tour',
+              itemCategory: 'Ancient Temples',
+            );
           },
         );
       },
@@ -251,7 +267,12 @@ List<Slide> carouselExploreSlides(BuildContext context) => [
             ],
           ),
           onBookPressed: () {
-            // Define booking action here
+            Navigator.pop(context);
+            showBookingModal(
+              context: context,
+              itemTitle: 'Mirissa Beach & Whale Cruise',
+              itemCategory: 'Beach & Marine',
+            );
           },
         );
       },
@@ -300,7 +321,12 @@ List<Slide> carouselExploreSlides(BuildContext context) => [
             ],
           ),
           onBookPressed: () {
-            // Define booking action here
+            Navigator.pop(context);
+            showBookingModal(
+              context: context,
+              itemTitle: 'Arugam Bay Surf & Lagoon Tour',
+              itemCategory: 'Surf & Adventure',
+            );
           },
         );
       },
@@ -349,7 +375,12 @@ List<Slide> carouselExploreSlides(BuildContext context) => [
             ],
           ),
           onBookPressed: () {
-            // Define booking action here
+            Navigator.pop(context);
+            showBookingModal(
+              context: context,
+              itemTitle: 'Ceylon Tea Plantation Tour',
+              itemCategory: 'Highland Tour',
+            );
           },
         );
       },

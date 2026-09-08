@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 void handleBookNow(String title) {
   // Your existing code to handle the booking logic
-  print('Booking initiated for $title');
+  debugPrint('Booking initiated for $title');
 }
 
 Future<void> popupDialog({

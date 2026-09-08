@@ -31,6 +31,7 @@ class _UserprofileEmailchangeState extends State<UserprofileEmailchange> {
 
           await Future.delayed(const Duration(milliseconds: 500));
           await authService.signOut();
+          if (!mounted) return;
           Navigator.pop(context, true);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -39,23 +40,24 @@ class _UserprofileEmailchangeState extends State<UserprofileEmailchange> {
                 'Please Login again after confirming your new email address.',
               ),
               backgroundColor: Colors.green.shade600,
-              duration: Duration(seconds: 5),
+              duration: const Duration(seconds: 5),
             ),
           );
           if (authService.currentUser() == null && mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('You have been logged out.'),
                 backgroundColor: Colors.red,
               ),
             );
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => Loginpage()),
+              MaterialPageRoute(builder: (context) => const Loginpage()),
             );
           }
         }
       } catch (e) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             // content: Text(

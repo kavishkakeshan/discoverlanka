@@ -37,6 +37,10 @@ class AuthService {
     await _supabase.auth.signOut();
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _supabase.auth.resetPasswordForEmail(email);
+  }
+
   User? currentUser() {
     final session = _supabase.auth.currentSession;
     return session?.user;
@@ -77,7 +81,7 @@ class AuthService {
 
   Future<void> refreshUserDetails() async {
     try {
-      final response = await _supabase.auth.getUser();
+      await _supabase.auth.getUser();
     } catch (e) {
       throw Exception('Failed to refresh user details: $e');
     }

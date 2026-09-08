@@ -42,7 +42,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(currentRoute: 'profile'),
       body: RefreshIndicator(
         onRefresh: _refreshUserProfile,
         child: SingleChildScrollView(
@@ -142,17 +142,18 @@ class _UserProfileState extends State<UserProfile> {
                 iconData: Icons.delete,
                 backgroundColor: Colors.red,
                 onTap: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  final navigator = Navigator.of(context);
                   await authservice.deleteUser();
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    messenger.showSnackBar(
                       const SnackBar(
                         content: Text('Your account has been deleted.'),
                         backgroundColor: Colors.red,
                       ),
                     );
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Loginpage()),
+                    navigator.pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Loginpage()),
                     );
                   }
                 },
